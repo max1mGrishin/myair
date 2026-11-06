@@ -2491,7 +2491,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
     const lv = aqi(homeMean(res, pid)), n = state.calm ? lv[3] : num(res.total), fs = state.calm ? 14 : n.length <= 3 ? 30 : n.length === 4 ? 23 : 19;
     const ring = (w, size) => '<div class="ringwrap" style="width:' + w + 'px;flex:none">' + ringSVG(res) + '<div class="ringc">' + (state.calm ? '<span class="big calm" style="font-size:' + (w * .082).toFixed(1) + 'px;max-width:' + Math.round(w * .58) + 'px"><i style="background:var(--' + lv[1] + ')"></i>' + n + '</span>' : '<span class="big num" style="font-size:' + size + 'px">' + n + '</span>') + '<span class="lbl" style="max-width:' + (w * .64).toFixed(0) + 'px;font-size:11px">' + (state.calm ? 'smog near home today' : bigLabel(1)) + '</span></div></div>';
     const b1 = fcLine(state.pid) + (homeMean(res, pid) <= 15 ? GOODDAY : '') + '<div class="w bare">' + tag(1) + '<div class="useg' + (UNITS().length === 4 ? ' n4' : '') + '" role="group" aria-label="Show as">' + UNITS().map(u => '<button type="button" data-unit="' + u.k + '" aria-pressed="' + (unit() === u.k) + '">' + ic(u.icon) + u.seg + '</button>').join('') + '</div></div>' +
-      '<div class="w">' + tag(4) + '<div class="wh"><h3>Day timeline</h3><span class="hint">by hour</span></div>' + timelineSVG(res, pid) +
+      '<div class="w">' + tag(4) + '<div class="wh"><h3>Your day timeline</h3><span class="hint">by hour</span></div>' + timelineSVG(res, pid) +
         '<div class="legend">' + cats.map(c => '<span><i style="background:var(--c-' + c + ')"></i>' + catName(c) + '</span>').join('') + '<span><i style="background:var(--smog-soft);outline:1px dashed var(--smog)"></i>Outdoor smog</span>' + (FC.on ? '<span><i class="fcmark"></i>forecast: paler bars are future hours</span>' : '') + '</div></div>' +
       '<div class="w tap" role="button" tabindex="0" data-goto="today2" aria-label="See the breakdown">' + tag(2) + '<div class="row" style="flex-wrap:nowrap;gap:12px">' + ring(150, fs) +
         '<div style="display:grid;gap:8px;justify-items:start">' + (state.calm ? '' : '<span class="chip' + (vsY < 0 ? ' good' : '') + '" style="white-space:normal;text-align:left">' + ic(vsY < 0 ? 'trending-down' : 'trending-up') + pct(vsY) + ' vs yesterday' + (vsY > 0 ? ' · more smog' : '') + '</span>') + '' + chip2 + (tfS > .005 ? '<span class="chip good" style="white-space:normal;text-align:left">' + ic('shield-check') + 'habits: −' + savedAmt(tfS) + ' a day' + '</span>' : '') + '</div></div>' +
@@ -3005,8 +3005,8 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
     const winter = HEAT[state.month] >= .5;
     const al = actLabel(pid), ac = acts(pid), walker = ac.dog || ac.kid || ac.walk || ac.sport;
     const mwin = (k, icon, bg, fg, label, time) => '<button type="button" class="mwin' + (state.win === k ? ' on' : '') + '" data-win="' + k + '" aria-pressed="' + (state.win === k) + '" style="background:' + bg + '"><span class="mwi" style="color:' + fg + '">' + ic(icon) + '</span><span class="mwt"><span>' + label + '</span><b>' + time + '</b></span></button>';
-    const b9 = '<div class="w" style="gap:14px">' + tag(9) + '<div class="wh"><h3>Best time today</h3><span class="hint">district forecast</span></div>' + stripHTML(bw) +
-      '<h4 class="mwh">Your 3 micro-wins</h4>' +
+    const b9 = '<div class="w" style="gap:14px">' + tag(9) + '<div class="wh"><h3>Tomorrow’s forecast</h3><span class="hint">near home, by hour</span></div>' + stripHTML(bw) +
+      '<h4 class="mwh">Your 3 small steps for tomorrow</h4>' +
       '<div class="mwins' + (state.win ? ' has' : '') + '">' + mwin('sport', al.icon, 'var(--accent-soft)', 'var(--accent)', al.label, bw.label) +
       mwin('air', 'wind', 'var(--good-soft)', 'var(--good)', 'Air out for 10 min', bw.air + ':00–' + (bw.air + 1) + ':00') +
       mwin('avoid', 'house', 'var(--bad-soft)', 'var(--bad)', ac.sport || ac.gym ? 'Better at home or the gym' : 'Better to stay home', bw.worstLabel) + '</div>' +
@@ -3026,7 +3026,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
     const b10 = '<div class="w">' + tag(10) + '<div class="wh"><h3>Myth busters</h3><span class="hint">save your effort</span></div><div class="myths">' + myths + '</div></div>';
     const top = list.filter(t => !t.noCalc).slice(0, 3);
     document.getElementById('pg-reduce').innerHTML =
-      page({ sec:'reduce', time:'19:54', head: bigHead('Breathe cleaner', 'Tips for your day · ' + DIST[placeD(prof(), ['home'])].s), body:b9 + notifCard(pid), cap:'Screen 4 · 1 of 4',
+      page({ sec:'reduce', time:'19:54', head: bigHead('Breathe cleaner', 'Plan for tomorrow · ' + DIST[placeD(prof(), ['home'])].s), body:b9 + notifCard(pid), cap:'Screen 4 · 1 of 4',
         L: note('Best time', '<p>Hourly forecast for the home district. Windows for exercise and airing follow the daily smog pattern of the selected month: a strong evening peak in winter, almost flat in summer.</p><p>Tap the bar to show the level scale. Tap a micro-win to highlight its hours on the bar.</p><p>The 3 micro-wins are windows for this person’s activities: when to go out, when to air out, when to stay in.</p>', '9'),
         R: note('Reminders', '<p>Offered as a tip, not at install. Texts match the person’s activities: a dog walk for a dog owner, a run for a runner. Twice a day at most, and only about things you can do right now.</p>', '24') + note('Weather, exercise and risk groups', '<p>Snow noticeably cleans the air, which also shows in measurements in Almaty homes. No need to give up exercise: in the Cambridge model, the benefits of movement outweigh the harm unless you train for hours at peak smog. So on a snowy day we suggest going out. This tip and the general tips sit at the bottom of the tips list, under “General”, with details under the arrow.</p>') }) +
       page({ time:'19:54', head: miniHead('Breathe cleaner', 'Tips'), id:'reduce2', body:b8, cap:'Screen 4 · 2 of 4', hint:'Nothing is selected by default. Check “I’ll try” on any tips and the top shows how much less polluted air you’d breathe. Tap a tip’s title for details and the source.',
@@ -3472,6 +3472,29 @@ body.app,body.app button{touch-action:manipulation}
 .aptx b{display:block;font-size:15px;line-height:1.25}
 .aptx small{display:block;font-size:12.5px;color:var(--muted);line-height:1.3}
 @media (prefers-reduced-motion: reduce){.apsheet,.apscrim{animation:none}}
+body.app #today1 .legend,body.app #today1 .smogln,body.app #today1 .chip:has(svg.lucide-shield-check){display:none!important}
+.acards{display:grid;gap:16px}
+.acard{cursor:pointer;text-align:left;color:var(--ink);transition:transform .12s ease}
+.acard:active{transform:scale(.985)}
+.acard .wh .more{display:inline-flex;align-items:center;gap:1px;font-size:12.5px;white-space:nowrap}
+.acard .wh .more svg{font-size:14px}
+.acsteps{display:grid;gap:8px}
+.acs{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px}
+.acs b{font-variant-numeric:tabular-nums;font-size:13.5px;white-space:nowrap}
+.acsi{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:16px}
+.acfoot{display:flex;gap:8px;align-items:center;background:var(--good-soft);color:var(--good);border-radius:12px;padding:8px 10px;font-size:12.5px;font-weight:600}
+.acfoot svg{font-size:15px;flex:none}
+.actrips{display:grid;gap:8px}
+.actr{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center}
+.actr svg.mini{width:40px;height:40px;border-radius:10px;display:block}
+.actt b,.actv b{display:block;font-size:13.5px;line-height:1.25}
+.actt small,.actv small{display:block;font-size:11.5px;color:var(--muted)}
+.actv{text-align:right;max-width:96px}
+.actv b{font-variant-numeric:tabular-nums}
+.acmore{font-size:12px;color:var(--muted);padding-left:50px}
+.acwsum{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;font-size:13px;color:var(--muted)}
+.acwsum b{font-family:var(--f-display);font-size:20px;color:var(--ink);letter-spacing:-.01em}
+.acwsum em{font-style:normal;font-weight:700;color:var(--good)}
 .bk2{border:0;background:none;color:var(--accent);font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:1px;padding:0;margin:0 0 6px -4px;cursor:pointer}
 #atoast{position:fixed;left:calc(var(--sx) + var(--sw) / 2);top:calc(var(--sy) + var(--sh) - var(--tbh) - 54px);transform:translate(-50%,8px);background:var(--ink);color:var(--card);font-size:13px;font-weight:600;padding:9px 14px;border-radius:999px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap}
 #atoast.on{opacity:1;transform:translate(-50%,0)}
@@ -3561,16 +3584,28 @@ body.app,body.app button{touch-action:manipulation}
       if (!se){ mh.insertAdjacentHTML('afterend', '<div class="asrc"><i data-lucide="radio-tower"></i><span></span></div>'); se = mh.parentNode.querySelector('.asrc'); added = true; }
       var sp = se.querySelector('span'); if (sp.textContent !== src) sp.textContent = src;
     }
-    // main screen: entry points to every other part of “My air”
-    added = addTo(R(1,0), 'ahub', '<div class="ahub" style="display:grid;gap:14px"><div class="angt">More in My air</div>' + navRows([['data-apush="2,0"','route','Trips','<span data-asub="trips"></span>'],['data-apush="3,0"','leaf','Breathe cleaner','<span data-asub="clean"></span>'],['data-apush="4,0"','calendar-days','My week','<span data-asub="week"></span>'],['data-apush="0,1"','settings-2','Settings','Unit, places, purifier, tracking']]) + '</div>') || added;
-    var sub = function(k, txt){ var e = R(1,0) && R(1,0).querySelector('[data-asub="' + k + '"]'); if (e && txt && e.textContent !== txt) e.textContent = txt; };
-    var q = function(r, sel){ var e = r && r.querySelector(sel); return e ? e.textContent.trim() : ''; };
-    var tm = q(R(2,0), '.ab .meta'), tn = parseInt(tm.replace(/\D+/g, ''), 10);
-    sub('trips', /^Today/.test(tm) && !isNaN(tn) ? tn + (tn === 1 ? ' trip' : ' trips') + ' today · what each one cost' : 'Every trip and walk');
-    var mw = R(3,0) && R(3,0).querySelector('.mwin');
-    sub('clean', mw ? 'Cleanest time today: ' + q(mw, 'b') + ' · tips' : 'Tips for your day');
-    var wv = q(R(4,0), '.wstats .stat b'), wc = q(R(4,0), '.ab .chip');
-    sub('week', (wv ? wv + ' this week' : 'This week') + (wc ? ' · ' + wc + ' vs last week' : ''));
+    // main screen: cards for every part of “My air”, each previewing what is inside
+    var T = R(1,0);
+    added = addTo(T, 'acards', '<div class="acards">' +
+      '<div class="w acard" role="button" tabindex="0" data-apush="3,0"><div class="wh"><h3>Reduce it in 3 small steps</h3><span class="more">Tomorrow<i data-lucide="chevron-right"></i></span></div><div class="acsteps" data-afill="steps"></div><div data-afill="habits"></div></div>' +
+      '<div class="w acard" role="button" tabindex="0" data-apush="2,0"><div class="wh"><h3>Your trips today</h3><span class="more">All trips<i data-lucide="chevron-right"></i></span></div><div class="actrips" data-afill="trips"></div></div>' +
+      '<div class="w acard" role="button" tabindex="0" data-apush="4,0"><div class="wh"><h3>Your week</h3><span class="more">Week<i data-lucide="chevron-right"></i></span></div><div class="acweek" data-afill="week"></div></div>' +
+      navRows([['data-apush="0,1"','settings-2','Settings','Unit, places, purifier, tracking']]) + '</div>') || added;
+    var fill = function(k, html){ var e = T && T.querySelector('[data-afill="' + k + '"]'); if (e && e._h !== html){ e._h = html; e.innerHTML = html; added = true; } };
+    var txt = function(e){ return e ? e.textContent.trim() : ''; };
+    var esc = function(x){ return String(x).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); };
+    // 3 small steps: the micro-wins from “Breathe cleaner”
+    var mws = R(3,0) ? arr(R(3,0).querySelectorAll('.mwin')) : [];
+    fill('steps', mws.map(function(w){ var i = w.querySelector('.mwi'), l = w.querySelector('.mwt span'); return '<div class="acs"><span class="acsi" style="background:' + w.style.background + ';color:' + (i ? i.style.color : '') + '">' + (i ? i.innerHTML : '') + '</span><span>' + esc(txt(l)) + '</span><b>' + esc(txt(w.querySelector('b'))) + '</b></div>'; }).join(''));
+    var hc = T && T.querySelector('.chip svg.lucide-shield-check'), ht = hc ? txt(hc.closest('.chip')).replace(/^habits:\s*[−-]?/, '') : '';
+    fill('habits', ht ? '<div class="acfoot"><i data-lucide="shield-check"></i><span>Your habits already save <b>' + esc(ht) + '</b></span></div>' : '');
+    // trips: today’s trips with their mini maps
+    var rt = R(2,0), day = /^Today/.test(txt(rt && rt.querySelector('.ab .meta'))), trs = [];
+    if (rt && day){ var tl = rt.querySelector('.trips'); if (tl) for (var n = tl.firstElementChild; n && !n.classList.contains('grp'); n = n.nextElementSibling) if (n.classList.contains('trip')) trs.push(n); }
+    fill('trips', trs.length ? trs.slice(0, 3).map(function(tp){ var mp = tp.querySelector('svg.mini'), tm = txt(tp.querySelector('.tt span')).split(' · ')[0], sh = txt(tp.querySelector('.tv span')); return '<div class="actr">' + (mp ? mp.outerHTML : '<span></span>') + '<span class="actt"><b>' + esc(txt(tp.querySelector('.tt b'))) + '</b><small>' + esc(tm) + '</small></span><span class="actv"><b>' + esc(txt(tp.querySelector('.tv b'))) + '</b><small>' + esc(sh) + '</small></span></div>'; }).join('') + (trs.length > 3 ? '<div class="acmore">+' + (trs.length - 3) + ' more</div>' : '') : '<p class="small">Every trip and walk, with what each one cost.</p>');
+    // week: the chart by day + totals
+    var wk = R(4,0), wsvg = wk && wk.querySelector('.w svg.chart'), wv = txt(wk && wk.querySelector('.wstats .stat b')), wc = txt(wk && wk.querySelector('.ab .chip'));
+    fill('week', '<div class="acwsum"><b>' + esc(wv) + '</b><span>this week</span>' + (wc ? '<em>' + esc(wc) + ' vs last week</em>' : '') + '</div>' + (wsvg ? wsvg.outerHTML : ''));
     // section screens: “‹ My air” above the large title
     rs.forEach(function(r){ if (r === R(1,0)) return; var h = r.querySelector('.ab > div'); if (h && !h.querySelector('.bk2')){ h.insertAdjacentHTML('afterbegin', '<button type="button" class="bk2" data-aback><i data-lucide="chevron-left"></i>My air</button>'); added = true; } });
     // floating back for screens without a header
